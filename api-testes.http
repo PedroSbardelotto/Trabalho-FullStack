@@ -1,0 +1,60 @@
+# Teste do endpoint POST /api/clientes
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nome": "João da Silva",
+  "email": "joao@email.com",
+  "cpf": "123.456.789-00",
+  "senha": "senha123"
+}
+
+###
+
+# Teste do endpoint POST /api/login
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "email": "joao@email.com",
+  "senha": "senha123"
+}
+
+###
+
+# Teste do endpoint POST /api/eventos (com JWT)
+POST http://localhost:3000/api/eventos
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+{
+  "nome": "Novo Evento",
+  "data": "2025-06-10T20:00:00Z",
+  "local": "Centro de Convenções"
+}
+
+###
+
+# Teste do endpoint GET /api/eventos
+GET http://localhost:3000/api/eventos
+
+###
+
+# Teste do endpoint POST /api/pedidos (com JWT)
+POST http://localhost:3000/api/pedidos
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+
+{
+  "clienteId": 1,
+  "itens": [
+    { "eventoId": 1, "quantidade": 2 },
+    { "eventoId": 2, "quantidade": 1 }
+  ]
+}
+
+###
+
+# Teste do endpoint GET /api/relatorio (com JWT)
+GET http://localhost:3000/api/relatorio
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
