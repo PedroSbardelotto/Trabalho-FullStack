@@ -1,60 +1,61 @@
-# Teste do endpoint POST /api/clientes
-POST http://localhost:3000/api/clientes
+### Criar cliente
+POST http://localhost:3000/clientes
 Content-Type: application/json
 
 {
-  "nome": "João da Silva",
-  "email": "joao@email.com",
-  "cpf": "123.456.789-00",
-  "senha": "senha123"
+  "nome": "João Silva",
+  "email": "joao@example.com",
+  "cpf": "12345678900",
+  "senha": "123456"
 }
 
 ###
 
-# Teste do endpoint POST /api/login
-POST http://localhost:3000/api/login
+### Login do cliente
+POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "email": "joao@email.com",
-  "senha": "senha123"
+  "email": "joao@example.com",
+  "senha": "123456"
 }
 
 ###
 
-# Teste do endpoint POST /api/eventos (com JWT)
-POST http://localhost:3000/api/eventos
+### Criar evento (admin)
+POST http://localhost:3000/eventos
 Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+Authorization: Bearer minha_chave_super_secreta
 
 {
-  "nome": "Novo Evento",
-  "data": "2025-06-10T20:00:00Z",
-  "local": "Centro de Convenções"
+  "nome": "Show de Rock",
+  "local": "Estádio Municipal",
+  "horario": "2025-06-30T20:00:00Z",
+  "valor": 150,
+  "quantidade": 100
 }
 
 ###
 
-# Teste do endpoint GET /api/eventos
-GET http://localhost:3000/api/eventos
+### Listar eventos
+GET http://localhost:3000/eventos
 
 ###
 
-# Teste do endpoint POST /api/pedidos (com JWT)
-POST http://localhost:3000/api/pedidos
+### Criar pedido
+POST http://localhost:3000/pedidos
 Content-Type: application/json
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+Authorization: Bearer minha_chave_super_secreta
 
 {
-  "clienteId": 1,
-  "itens": [
-    { "eventoId": 1, "quantidade": 2 },
-    { "eventoId": 2, "quantidade": 1 }
-  ]
+  "cpfCliente": "12345678900",
+  "idEvento": "1",
+  "quantidade": 2
 }
 
 ###
 
-# Teste do endpoint GET /api/relatorio (com JWT)
-GET http://localhost:3000/api/relatorio
-Authorization: Bearer SEU_TOKEN_JWT_AQUI
+### Gerar relatório de pedidos
+GET http://localhost:3000/relatorio
+Authorization: Bearer minha_chave_super_secreta
+

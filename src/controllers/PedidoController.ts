@@ -1,18 +1,27 @@
 import { Request, Response } from 'express';
-import { PedidoService } from '../service/PedidoService';
+import { pedidoService } from '../service/PedidoService';
 
-const service = new PedidoService();
+export const criarPedido = (req: Request, res: Response): void => {
+  const { cpfCliente, idEvento } = req.body;
 
-export const criarPedido = (req: Request, res: Response) => {
-  const { clienteId, eventoId, quantidade } = req.body;
+  if (!cpfCliente || !idEvento) {
+    res.status(400).json({ message: 'CPF e ID do evento são obrigatórios.' });
+    return;
+  }
+
   try {
-    const pedido = service.criar(clienteId, eventoId, quantidade);
-    res.status(201).json({ message: 'Compra realizada com sucesso', pedido });
-  } catch (err: any) {
-    res.status(400).json({ message: err.message });
+    const pedido = pedidoService.criarPedido({ cpfCliente, idEvento });
+    res.status(201).json({ message: 'Compra realizada com sucesso!', pedido });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
   }
 };
 
-export const relatorioPedidos = (req: Request, res: Response) => {
-  res.json(service.relatorio());
+export const relatorioPedidos = (req: Request, res: Response): void => {
+    try {
+        const relatorio = pedidoService.gerarRelatorio();
+        res.status(200).json(relatorio);
+    } catch (error) {
+        res.status(500).json({ mensagem: 'Erro ao gerar relatório.', erro: error });
+    }
 };
