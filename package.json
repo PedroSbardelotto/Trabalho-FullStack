@@ -24,7 +24,6 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.0",
-    "ts-node": "^10.9.2",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
