@@ -1,0 +1,50 @@
+JWT_SECRET=minha_chave_super_secreta
+
+
+
+
+clientes 
+
+{
+  "nome": "Maria Souza",
+  "email": "maria.souza@example.com",
+  "cpf": "98765432100",
+  "senha": "senha123"
+}
+
+{
+  "nome": "Carlos Oliveira",
+  "email": "carlos.oliveira@example.com",
+  "cpf": "11122233344",
+  "senha": "senha456"
+}
+
+login 
+
+{
+  "email": "maria.souza@example.com",
+  "senha": "senha123"
+}
+
+{
+  "email": "carlos.oliveira@example.com",
+  "senha": "senha456"
+}
+
+eventos 
+
+{
+  "nome": "Festival de Jazz",
+  "local": "Praça Central",
+  "horario": "2025-07-15T18:00:00Z",
+  "valor": 120,
+  "quantidadeDisponivel": 200
+}
+
+{
+  "nome": "Teatro Clássico",
+  "local": "Teatro Municipal",
+  "horario": "2025-08-10T21:00:00Z",
+  "valor": 90,
+  "quantidadeDisponivel": 150
+}
