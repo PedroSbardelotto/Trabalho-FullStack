@@ -15,9 +15,10 @@ export const criarEvento = (req: Request, res: Response): void => {
     horario,
     valor: Number(valor),
     quantidadeDisponivel: Number(quantidadeDisponivel),
-    id: '',
-    imagem: ''
+    id: "", 
+    imagem: "",
   });
+
 
   res.status(201).json(evento);
 };

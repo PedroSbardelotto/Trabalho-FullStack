@@ -9,10 +9,10 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
   }
 
   try {
-    const decoded = jwt.verify(token, 'chave_secreta');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string); // N
     req.body.user = decoded;
-    next(); 
+    next();
   } catch {
-    res.status(401).json({ message: 'Token inválido' });
+    res.status(401).json({ message: "Token inválido" });
   }
 };

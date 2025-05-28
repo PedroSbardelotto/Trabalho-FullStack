@@ -32,7 +32,7 @@ Authorization: Bearer minha_chave_super_secreta
   "local": "Estádio Municipal",
   "horario": "2025-06-30T20:00:00Z",
   "valor": 150,
-  "quantidade": 100
+  "quantidadeDisponivel": 100
 }
 
 ###
