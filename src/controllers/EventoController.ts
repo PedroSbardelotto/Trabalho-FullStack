@@ -35,3 +35,4 @@ export const listarEventosDisponiveis = (
   const eventos = eventoService.listarEventosDisponiveis();
   res.status(200).json(eventos);
 };
+
