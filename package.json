@@ -24,6 +24,8 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.0",
+    "mysql": "^2.18.1",
+    "sequelize": "^6.37.7",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
