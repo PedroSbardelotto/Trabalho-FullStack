@@ -1,0 +1,63 @@
+### Passo 1: Criar um novo Cliente
+# Primeiro, criamos um usuário no sistema.
+POST http://localhost:3000/api/clientes
+Content-Type: application/json
+
+{
+  "nome": "Ana Silva",
+  "email": "ana.silva@example.com",
+  "cpf": "12345678901",
+  "senha": "senhaforte123"
+}
+
+### Passo 2: Fazer Login para obter o Token JWT
+# Com o cliente criado, fazemos o login para pegar o token de autenticação.
+# AÇÃO: Copie o valor do "token" da resposta para usar nos próximos passos.
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "cpf": "12345678901",
+  "senha": "senhaforte123"
+}
+
+### Passo 3: Criar um novo Evento (Rota Protegida)
+# Como um usuário autenticado, vamos criar um evento.
+# AÇÃO: Substitua 'SEU_TOKEN_COPIADO_AQUI' pelo token do Passo 2.
+# AÇÃO: Copie o "id" do evento da resposta para usar no Passo 5.
+POST http://localhost:3000/api/eventos
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+  "nome": "Show dee Rock Acústico",
+  "local": "Bar Opinião",
+  "horario": "2025-08-20T22:00:00Z",
+  "valor": 75.50,
+  "quantidadeDisponivel": 150
+}
+
+
+### Passo 4: Listar Eventos Disponíveis (Rota Pública)
+# Verificamos se nosso evento aparece na lista pública.
+GET http://localhost:3000/api/eventos
+
+
+### Passo 5: Comprar um Ingresso (Rota Protegida)
+# O cliente "Ana Silva" vai agora comprar um ingresso.
+# AÇÃO: Substitua o token e o id do evento pelos valores que você copiou.
+POST http://localhost:3000/api/pedidos
+Content-Type: application/json
+Authorization: Bearer 
+
+{
+  "cpfCliente": "12345678901",
+  "idEvento":"" 
+}
+
+
+### Passo 6: Gerar Relatório de Pedidos (Rota Protegida)
+# Finalmente, checamos o relatório de pedidos para ver nossa compra registrada.
+# AÇÃO: Substitua o token.
+GET http://localhost:3000/api/relatorio
+Authorization: Bearer 

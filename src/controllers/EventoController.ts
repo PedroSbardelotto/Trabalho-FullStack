@@ -1,38 +1,32 @@
 import { Request, Response } from "express";
 import { eventoService } from "../service/EventoService";
 
-export const criarEvento = (req: Request, res: Response): void => {
-  const { nome, local, horario, valor, quantidadeDisponivel } = req.body;
+export const criarEvento = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { nome, local, horario, valor, quantidadeDisponivel } = req.body;
+    const imagem = req.file ? req.file.filename : undefined;
 
-  if (
-    !nome ||
-    !local ||
-    !horario ||
-    valor == null ||
-    quantidadeDisponivel == null
-  ) {
-    res.status(400).json({ message: "Todos os campos são obrigatórios." });
-    return;
+    const evento = await eventoService.criarEvento({
+      nome,
+      local,
+      horario: new Date(horario),
+      valor: Number(valor),
+      quantidadeDisponivel: Number(quantidadeDisponivel),
+      imagem,
+    });
+
+    res.status(201).json(evento);
+  } catch (error: any) {
+    // Captura qualquer erro do Sequelize (ex: campo faltando) ou da lógica de negócio
+    res.status(400).json({ message: error.message });
   }
-
-  const evento = eventoService.criarEvento({
-    nome,
-    local,
-    horario,
-    valor: Number(valor),
-    quantidadeDisponivel: Number(quantidadeDisponivel),
-    id: eventoService.getId().toString(),
-    imagem: "",
-  });
-
-  res.status(201).json(evento);
 };
 
-export const listarEventosDisponiveis = (
-  _req: Request,
-  res: Response
-): void => {
-  const eventos = eventoService.listarEventosDisponiveis();
-  res.status(200).json(eventos);
+export const listarEventosDisponiveis = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const eventos = await eventoService.listarEventosDisponiveis();
+    res.status(200).json(eventos);
+  } catch (error: any) {
+    res.status(500).json({ message: "Erro ao buscar eventos.", error: error.message });
+  }
 };
-
