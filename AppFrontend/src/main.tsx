@@ -3,40 +3,27 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { AuthProvider } from './contexts/AuthContext'; // 1. Importe o AuthProvider
+
 import App from './App.tsx';
 import HomePage from './pages/HomePage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
-// Futuramente, importe as outras páginas aqui
-// import EventosPage from './pages/EventosPage.tsx'; 
-// import CadastroPage from './pages/CadastroPage.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // App é o layout principal
-    children: [ // As páginas são "filhas" do layout
-      {
-        path: "/",
-        element: <HomePage />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
-      // {
-      //   path: "/eventos",
-      //   element: <EventosPage />,
-      // },
-      // {
-      //   path: "/cadastro",
-      //   element: <CadastroPage />,
-      // },
+    element: <App />,
+    children: [
+      { path: "/", element: <HomePage /> },
+      { path: "/login", element: <LoginPage /> },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider> {/* 2. Envolva o roteador com o Provider */}
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 );

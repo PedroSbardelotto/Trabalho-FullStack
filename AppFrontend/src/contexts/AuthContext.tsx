@@ -1,9 +1,17 @@
-import { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, type ReactNode, SetStateAction, Dispatch } from 'react';
 import { api } from '../services/api';
 
-// ... (definição de tipos)
+// 1. Definir os tipos para o valor do contexto
+interface AuthContextData {
+  isAuthenticated: boolean;
+  token: string | null;
+  setToken: Dispatch<SetStateAction<string | null>>;
+  login: (cpf: string, senha: string) => Promise<{ success: boolean; message?: string; }>;
+  logout: () => void;
+}
 
-export const AuthContext = createContext({} as any);
+// 2. Criar o contexto com um valor padrão (pode ser 'undefined' e checado no 'useContext')
+export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
@@ -16,7 +24,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  async function login(cpf, senha) {
+  // 3. Tipar os parâmetros da função login
+  async function login(cpf: string, senha: string): Promise<{ success: boolean; message?: string; }> {
     try {
       const response = await api.post('/login', { cpf, senha });
       const { token: newToken } = response.data;
@@ -25,11 +34,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
       setToken(newToken);
       
-      // Retornar sucesso
       return { success: true };
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro no login:", error);
-      // Retornar falha com a mensagem de erro da API
       return { success: false, message: error.response?.data?.message || "Erro ao fazer login." };
     }
   }
@@ -43,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAuthenticated = !!token;
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, token, setToken, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
