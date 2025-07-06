@@ -1,11 +1,12 @@
-import { createContext, useState, useEffect, type ReactNode } from 'react'; 
+import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { api } from '../services/api';
 
 interface UserPayload {
   id: string;
+  nome: string;
   cpf: string;
-  tipo: 'user' | 'admin'; 
+  tipo: 'user' | 'admin';
 }
 
 
@@ -26,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
-       try {
+      try {
         const decodedUser: UserPayload = jwtDecode(storedToken);
         setUser(decodedUser);
         api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;

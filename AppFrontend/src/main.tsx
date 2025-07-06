@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/AuthContext'; // 1. Importe o AuthProvi
 
 import App from './App.tsx';
 import HomePage from './pages/HomePage.tsx';
+import CadastroPage from './pages/CadastroPage';
 import LoginPage from './pages/LoginPage.tsx';
 import EventosPage from './pages/EventosPage.tsx';
 import PedidoPage from './pages/PedidoPage';
@@ -20,10 +21,12 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <HomePage /> },
       { path: "/login", element: <LoginPage /> },
+      { path: "/cadastro", element: <CadastroPage /> },
       { path: "/eventos", element: <EventosPage /> },
       { path: "/pedido", element: <PedidoPage /> },
-      {path: "/admin",
-        element: <AdminProtectedRoute />, 
+      {
+        path: "/admin",
+        element: <AdminProtectedRoute />,
         children: [
           { path: "eventos/novo", element: <CreateEventPage /> }
         ]

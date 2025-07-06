@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { z } from 'zod';
 import { validate } from '../middleware/validateRequest';
-import { criarCliente, loginCliente } from '../controllers/ClienteController';
+import { criarClienteUser, criarClienteAdmin, loginCliente } from '../controllers/ClienteController';
 import { Router } from 'express';
 import { criarEvento, listarEventosDisponiveis } from '../controllers/EventoController';
 import { criarPedido, relatorioPedidos } from '../controllers/PedidoController';
@@ -11,9 +11,9 @@ import { upload } from '../config/multer';
 const router = Router();
 
 
-router.post('/clientes', criarCliente);
+router.post('/clientes', criarClienteUser);
 router.post('/login', loginCliente);
-
+router.post('/admin/clientes', criarClienteAdmin);
 
 router.post('/eventos', authMiddleware, criarEvento);
 router.get('/eventos', listarEventosDisponiveis); 
@@ -33,7 +33,7 @@ const createClienteSchema = z.object({
   }),
 });
 
-router.post('/clientes', validate(createClienteSchema), criarCliente);
+router.post('/clientes', validate(createClienteSchema), criarClienteUser);
 
 
 

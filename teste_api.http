@@ -4,13 +4,12 @@ POST http://localhost:3000/api/clientes
 Content-Type: application/json
 
 {
-    "cpf": "987654321",
-    "senha": "123456",
-    "nome": "testando admin",
-    "email": "testandoadmin@gmail.com",
-    "tipo": "admin"
+  "nome": "Teste",
+  "email": "teste@example.com",
+  "cpf": "86202030020",
+  "senha": "senhaforte123",
+  "tipo": "admin"
 }
-
 
 
 
@@ -21,8 +20,8 @@ POST http://localhost:3000/api/login
 Content-Type: application/json
 
 {
-  "cpf": "12345678901",
-  "senha": "senhaforte123"
+  "cpf": "00011122233",
+  "senha": "minhasenha"
 }
 
 ### Passo 3: Criar um novo Evento (Rota Protegida)
@@ -31,14 +30,16 @@ Content-Type: application/json
 # AÇÃO: Copie o "id" do evento da resposta para usar no Passo 5.
 POST http://localhost:3000/api/eventos
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwZDg1MWQwLTMyMDQtNDA0ZS1iMTI3LTY2MzMxZDBjY2JiZSIsImNwZiI6Ijk4NzY1NDMyMSIsInRpcG8iOiJhZG1pbiIsImlhdCI6MTc1MTc3MzM4MCwiZXhwIjoxNzUxNzc2OTgwfQ.kGH1q8RPLGaM-8YigFKyFKn9mWL8ujpLhdFW7u17sLI
 
 {
   "nome": "Show dee Rock Acústico",
   "local": "Bar Opinião",
   "horario": "2025-08-20T22:00:00Z",
   "valor": 75.50,
-  "quantidadeDisponivel": 150
+  "quantidadeDisponivel": 150,
+  "cpf" : 987654321
+  
 }
 
 
