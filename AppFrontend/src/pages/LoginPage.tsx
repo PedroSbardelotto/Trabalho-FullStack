@@ -11,7 +11,7 @@ function LoginPage() {
   const { login } = useContext(AuthContext);
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Impede o recarregamento da página
+    e.preventDefault();
 
     if (!cpf || !senha) {
       setError('CPF e senha são obrigatórios.');
@@ -21,11 +21,10 @@ function LoginPage() {
     const result = await login(cpf, senha);
 
     if (result.success) {
-      // Navega para a página principal ou de eventos após o login
       navigate('/eventos'); 
     } else {
-      // Exibe a mensagem de erro retornada pela API
-      setError(result.message);
+      
+      setError(result.message || 'Ocorreu um erro desconhecido. Tente novamente.');
     }
   };
   

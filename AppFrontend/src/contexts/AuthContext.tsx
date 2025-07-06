@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, type ReactNode, SetStateAction, Dispatch } from 'react';
+import { createContext, useState, useEffect, type ReactNode, type SetStateAction,  type Dispatch } from 'react';
 import { api } from '../services/api';
 
 // 1. Definir os tipos para o valor do contexto

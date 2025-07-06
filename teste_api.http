@@ -4,9 +4,9 @@ POST http://localhost:3000/api/clientes
 Content-Type: application/json
 
 {
-  "nome": "Ana Silva",
-  "email": "ana.silva@example.com",
-  "cpf": "12345678901",
+  "nome": "Teste",
+  "email": "teste@teste.com",
+  "cpf": "86202030020",
   "senha": "senhaforte123"
 }
 
