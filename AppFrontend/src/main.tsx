@@ -10,6 +10,8 @@ import HomePage from './pages/HomePage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import EventosPage from './pages/EventosPage.tsx';
 import PedidoPage from './pages/PedidoPage';
+import AdminProtectedRoute from './components/AdminProtectedRoute';
+import CreateEventPage from './pages/CreateEventPage';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,12 @@ const router = createBrowserRouter([
       { path: "/login", element: <LoginPage /> },
       { path: "/eventos", element: <EventosPage /> },
       { path: "/pedido", element: <PedidoPage /> },
+      {path: "/admin",
+        element: <AdminProtectedRoute />, 
+        children: [
+          { path: "eventos/novo", element: <CreateEventPage /> }
+        ]
+      }
     ],
   },
 ]);

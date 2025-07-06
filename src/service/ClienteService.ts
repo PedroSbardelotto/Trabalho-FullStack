@@ -90,7 +90,7 @@ class ClienteService {
     return novoCliente;
   }
 
-  public async validarLogin(cpf: string, senha: string): Promise<string> {
+  public async validarLogin(cpf: string, senha: string): Promise<Cliente> {
     const cliente = await Cliente.findOne({ where: { cpf } });
     if (!cliente) {
       throw new Error('Cliente não encontrado.');
@@ -107,8 +107,8 @@ class ClienteService {
       process.env.JWT_SECRET as string,
       { expiresIn: '1h' }
     );
-
-    return token;
+    cliente.token = token;
+    return cliente;
   }
 
   public async buscarPorCpf(cpf: string): Promise<Cliente | null> {

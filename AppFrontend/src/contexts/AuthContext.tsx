@@ -5,6 +5,7 @@ import { api } from '../services/api';
 interface UserPayload {
   id: string;
   cpf: string;
+  tipo: 'user' | 'admin'; 
 }
 
 

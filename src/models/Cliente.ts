@@ -15,7 +15,8 @@ export class Cliente extends Model {
   public email!: string;
   public cpf!: string;
   public senha!: string;
-  public tipo!: string;
+  public tipo!: "user" | "admin";
+  public token!: string | undefined;
 
   static initModel(sequelize: Sequelize): void {
     Cliente.init({
@@ -43,7 +44,7 @@ export class Cliente extends Model {
         allowNull: false,
       },
       tipo: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM('user', 'admin'),
         allowNull: false,
       },
     }, {

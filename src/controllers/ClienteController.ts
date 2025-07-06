@@ -24,9 +24,9 @@ export const loginCliente = async (req: Request, res: Response): Promise<void> =
     const { cpf, senha } = req.body;
 
     // A validação de login agora é assíncrona (compara o hash do bcrypt)
-    const token = await clienteService.validarLogin(cpf, senha);
+    const clienteLogado = await clienteService.validarLogin(cpf, senha);
     
-    res.status(200).json({ message: 'Login realizado com sucesso.', token });
+    res.status(200).json({ message: 'Login realizado com sucesso.', clienteLogado });
   } catch (error: any) {
     // Captura erros como "Cliente não encontrado" ou "Senha incorreta"
     res.status(401).json({ message: error.message });

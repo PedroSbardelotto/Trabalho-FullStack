@@ -6,8 +6,9 @@ Content-Type: application/json
 {
   "nome": "Teste",
   "email": "teste@teste.com",
-  "cpf": "86202030020",
-  "senha": "senhaforte123"
+  "cpf": "86202030021",
+  "senha": "senhaforte123",
+  "tipo": "admin"
 }
 
 ### Passo 2: Fazer Login para obter o Token JWT
