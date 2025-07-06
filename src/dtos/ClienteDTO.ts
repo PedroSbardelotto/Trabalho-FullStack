@@ -3,4 +3,5 @@ export interface ClienteDTO {
   email: string;
   cpf: string;
   senha: string;
+  tipo: string;
 }

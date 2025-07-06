@@ -15,6 +15,7 @@ export class Cliente extends Model {
   public email!: string;
   public cpf!: string;
   public senha!: string;
+  public tipo!: string;
 
   static initModel(sequelize: Sequelize): void {
     Cliente.init({
@@ -38,6 +39,10 @@ export class Cliente extends Model {
         unique: true,
       },
       senha: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      tipo: {
         type: DataTypes.STRING,
         allowNull: false,
       },

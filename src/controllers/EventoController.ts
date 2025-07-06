@@ -3,7 +3,7 @@ import { eventoService } from "../service/EventoService";
 
 export const criarEvento = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { nome, local, horario, valor, quantidadeDisponivel } = req.body;
+    const { nome, local, horario, valor, quantidadeDisponivel, cpf } = req.body;
     const imagem = req.file ? req.file.filename : undefined;
 
     const evento = await eventoService.criarEvento({
@@ -13,6 +13,7 @@ export const criarEvento = async (req: Request, res: Response): Promise<void> =>
       valor: Number(valor),
       quantidadeDisponivel: Number(quantidadeDisponivel),
       imagem,
+      cpf
     });
 
     res.status(201).json(evento);

@@ -46,6 +46,8 @@
 // export const eventoService = new EventoService();
 import { Evento } from "../models/Evento";
 import { Op } from "sequelize";
+import { clienteService } from "../service/ClienteService";
+
 
 class EventoService {
   async criarEvento(dados: {
@@ -55,7 +57,13 @@ class EventoService {
     valor: number;
     quantidadeDisponivel: number;
     imagem?: string;
+    cpf: string;
   }): Promise<Evento> {
+    const cliente = await clienteService.buscarPorCpf(dados.cpf);
+    if(cliente?.tipo != "admin"){
+      throw new Error("Cliente não tem permissão para criar um evento!")
+    }
+
     const evento = await Evento.create(dados);
     return evento;
   }

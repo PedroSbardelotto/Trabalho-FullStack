@@ -4,8 +4,13 @@ import { clienteService } from '../service/ClienteService';
 export const criarCliente = async (req: Request, res: Response): Promise<void> => {
   try {
     const { nome, email, cpf, senha } = req.body;
+    var { tipo } = req.body;
+
+    if (tipo == undefined || tipo == null || tipo == "") {
+      tipo = "user";
+    }
     // O service agora retorna uma Promise, então usamos await
-    await clienteService.criarCliente({ nome, email, cpf, senha });
+    await clienteService.criarCliente({ nome, email, cpf, senha, tipo });
 
     // O status 201 é retornado apenas se a criação for bem-sucedida
     res.status(201).json({ mensagem: 'Cliente criado com sucesso' });

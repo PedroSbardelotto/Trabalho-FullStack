@@ -1,39 +1,49 @@
-import { createContext, useState, useEffect, type ReactNode, type SetStateAction,  type Dispatch } from 'react';
+import { createContext, useState, useEffect, type ReactNode, type SetStateAction, type Dispatch } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { api } from '../services/api';
 
-// 1. Definir os tipos para o valor do contexto
+interface UserPayload {
+  id: string;
+  cpf: string;
+}
+
+
 interface AuthContextData {
   isAuthenticated: boolean;
-  token: string | null;
-  setToken: Dispatch<SetStateAction<string | null>>;
+  user: UserPayload | null; // Adicione o usuário aqui
   login: (cpf: string, senha: string) => Promise<{ success: boolean; message?: string; }>;
   logout: () => void;
 }
 
-// 2. Criar o contexto com um valor padrão (pode ser 'undefined' e checado no 'useContext')
+
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<UserPayload | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
+      const decodedUser: UserPayload = jwtDecode(storedToken);
+      setUser(decodedUser);
       api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
       setToken(storedToken);
     }
   }, []);
 
-  // 3. Tipar os parâmetros da função login
   async function login(cpf: string, senha: string): Promise<{ success: boolean; message?: string; }> {
     try {
       const response = await api.post('/login', { cpf, senha });
       const { token: newToken } = response.data;
-      
+
       localStorage.setItem('authToken', newToken);
       api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+
+      const decodedUser: UserPayload = jwtDecode(newToken);
+      setUser(decodedUser); // 2. Salve os dados do usuário no estado
       setToken(newToken);
-      
+
       return { success: true };
     } catch (error: any) {
       console.error("Erro no login:", error);
@@ -44,13 +54,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   function logout() {
     localStorage.removeItem('authToken');
     delete api.defaults.headers.common['Authorization'];
+    setUser(null); // 3. Limpe o usuário no logout
     setToken(null);
   }
 
-  const isAuthenticated = !!token;
-
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token, setToken, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!token, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
