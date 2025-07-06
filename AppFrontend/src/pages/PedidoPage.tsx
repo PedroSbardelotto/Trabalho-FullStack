@@ -4,15 +4,6 @@ import { Card, Button, ListGroup, Modal, Alert, Spinner } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../services/api';
 
-// O tipo Evento para garantir a consistência
-interface Evento {
-  id: string;
-  nome: string;
-  local: string;
-  horario: string;
-  valor: number;
-}
-
 function PedidoPage() {
   const navigate = useNavigate();
   const location = useLocation();

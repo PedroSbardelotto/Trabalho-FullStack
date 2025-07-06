@@ -69,7 +69,7 @@ import jwt from 'jsonwebtoken';
 
 class ClienteService {
   public async criarCliente(dados: ClienteDTO): Promise<Cliente> {
-    const { nome, email, cpf, senha } = dados;
+    const { nome, email, cpf, senha, tipo } = dados;
 
     const clienteExistente = await Cliente.findOne({ where: { cpf } });
     if (clienteExistente) {
@@ -84,6 +84,7 @@ class ClienteService {
       email,
       cpf,
       senha: senhaHash,
+      tipo
     });
 
     return novoCliente;

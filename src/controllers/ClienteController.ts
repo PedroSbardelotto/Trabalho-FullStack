@@ -3,8 +3,7 @@ import { clienteService } from '../service/ClienteService';
 
 export const criarCliente = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { nome, email, cpf, senha } = req.body;
-    var { tipo } = req.body;
+    var { nome, email, cpf, senha, tipo } = req.body;
 
     if (tipo == undefined || tipo == null || tipo == "") {
       tipo = "user";
