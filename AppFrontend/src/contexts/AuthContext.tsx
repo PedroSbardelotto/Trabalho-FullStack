@@ -26,10 +26,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
-      const decodedUser: UserPayload = jwtDecode(storedToken);
-      setUser(decodedUser);
-      api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
-      setToken(storedToken);
+       try {
+        const decodedUser: UserPayload = jwtDecode(storedToken);
+        setUser(decodedUser);
+        api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+        setToken(storedToken);
+      } catch (error) {
+        // Se o token for inválido, limpa o armazenamento e segue como deslogado
+        console.error("Token inválido encontrado, limpando...", error);
+        localStorage.removeItem('authToken');
+      }
     }
   }, []);
 

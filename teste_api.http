@@ -4,12 +4,15 @@ POST http://localhost:3000/api/clientes
 Content-Type: application/json
 
 {
-  "nome": "Teste",
-  "email": "teste@teste.com",
-  "cpf": "86202030021",
-  "senha": "senhaforte123",
-  "tipo": "admin"
+    "cpf": "987654321",
+    "senha": "123456",
+    "nome": "testando admin",
+    "email": "testandoadmin@gmail.com",
+    "tipo": "admin"
 }
+
+
+
 
 ### Passo 2: Fazer Login para obter o Token JWT
 # Com o cliente criado, fazemos o login para pegar o token de autenticação.
