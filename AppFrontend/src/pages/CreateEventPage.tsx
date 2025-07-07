@@ -25,6 +25,7 @@ function CreateEventPage() {
     setLoading(true);
 
     const formData = new FormData();
+    
     formData.append('nome', nome);
     formData.append('local', local);
     formData.append('horario', new Date(horario).toISOString());

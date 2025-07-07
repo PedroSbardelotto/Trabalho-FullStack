@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, type ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { api } from '../services/api';
 
+// As interfaces não mudam
 interface UserPayload {
   id: string;
   nome: string;
@@ -9,47 +10,50 @@ interface UserPayload {
   tipo: 'user' | 'admin';
 }
 
-
 interface AuthContextData {
   isAuthenticated: boolean;
-  user: UserPayload | null; // Adicione o usuário aqui
+  user: UserPayload | null;
+  loading: boolean;
   login: (cpf: string, senha: string) => Promise<{ success: boolean; message?: string; }>;
   logout: () => void;
 }
-
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserPayload | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  // O useEffect agora apenas lê o token e atualiza o estado interno
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
+
     if (storedToken) {
       try {
         const decodedUser: UserPayload = jwtDecode(storedToken);
         setUser(decodedUser);
-        api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
         setToken(storedToken);
+        // REMOVIDO: a linha 'api.defaults.headers.common...' foi retirada daqui
       } catch (error) {
-        // Se o token for inválido, limpa o armazenamento e segue como deslogado
         console.error("Token inválido encontrado, limpando...", error);
         localStorage.removeItem('authToken');
       }
     }
+    setLoading(false);
   }, []);
 
+  // A função login agora apenas salva o token no localStorage e atualiza o estado
   async function login(cpf: string, senha: string): Promise<{ success: boolean; message?: string; }> {
     try {
       const response = await api.post('/login', { cpf, senha });
       const { token: newToken } = response.data;
 
       localStorage.setItem('authToken', newToken);
-      api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+      // REMOVIDO: a linha 'api.defaults.headers.common...' foi retirada daqui
 
       const decodedUser: UserPayload = jwtDecode(newToken);
-      setUser(decodedUser); // 2. Salve os dados do usuário no estado
+      setUser(decodedUser);
       setToken(newToken);
 
       return { success: true };
@@ -59,15 +63,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  // A função logout agora apenas limpa o localStorage e o estado
   function logout() {
     localStorage.removeItem('authToken');
-    delete api.defaults.headers.common['Authorization'];
-    setUser(null); // 3. Limpe o usuário no logout
+    // REMOVIDO: a linha 'delete api.defaults.headers.common...' foi retirada daqui
+    setUser(null);
     setToken(null);
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!token, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated: !!token, user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

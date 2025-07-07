@@ -7,7 +7,7 @@ function AppNavbar() {
   // 1. Acessamos o estado de autenticação e as funções do nosso contexto
   const { isAuthenticated, user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  console.log('Dados do usuário no Navbar:', user);
   const handleLogout = () => {
     logout(); // Chama a função de logout do contexto
     navigate('/login'); // Redireciona o usuário para a página de login
@@ -45,7 +45,7 @@ function AppNavbar() {
                 </NavDropdown>
               </>
             ) : (
-              
+
               <>
                 <Nav.Link as={NavLink} to="/cadastro">
                   Cadastrar

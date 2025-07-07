@@ -13,7 +13,7 @@ class ClienteService {
     if (clienteExistente) {
       throw new Error('Cliente já cadastrado com este CPF.');
     }
-    
+
     const senhaHash = await bcrypt.hash(senha, 8);
 
     const novoCliente = await Cliente.create({
@@ -25,6 +25,14 @@ class ClienteService {
     });
 
     return novoCliente;
+  }
+
+  /**
+  * Lista todos os clientes cadastrados no banco de dados.
+  */
+  public async listarTodos(): Promise<Cliente[]> {
+    const clientes = await Cliente.findAll();
+    return clientes;
   }
 
   /**
@@ -43,6 +51,24 @@ class ClienteService {
     return this._criar(dados, 'admin');
   }
 
+  /**
+   * Deleta um cliente do banco de dados pelo seu ID.
+   */
+  public async deletarPorId(id: string): Promise<void> {
+    const cliente = await Cliente.findByPk(id);
+    if (!cliente) {
+      throw new Error('Cliente não encontrado para deleção.');
+    }
+    await cliente.destroy();
+  }
+  /**
+   * Busca um cliente pelo seu CPF.
+   */
+  public async buscarPorCpf(cpf: string): Promise<Cliente | null> {
+    const cliente = await Cliente.findOne({ where: { cpf } });
+    return cliente;
+  }
+
   // A função de login permanece a mesma
   public async validarLogin(cpf: string, senha: string): Promise<string> {
     const cliente = await Cliente.findOne({ where: { cpf } });
@@ -56,7 +82,7 @@ class ClienteService {
     }
 
     const token = jwt.sign(
-      { id: cliente.id, nome: cliente.nome, cpf: cliente.cpf, role: cliente.tipo },
+      { id: cliente.id, nome: cliente.nome, cpf: cliente.cpf, tipo: cliente.tipo },
       process.env.JWT_SECRET as string,
       { expiresIn: '7d' }
     );

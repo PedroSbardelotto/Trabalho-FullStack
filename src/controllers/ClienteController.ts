@@ -39,3 +39,26 @@ export const loginCliente = async (req: Request, res: Response): Promise<void> =
   }
 };
 
+export const listarClientes = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const clientes = await clienteService.listarTodos();
+    res.status(200).json(clientes);
+  } catch (error: any) {
+    res.status(500).json({ mensagem: 'Erro ao listar clientes.', erro: error.message });
+  }
+};
+
+export const deletarCliente = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params; // Pega o ID da URL
+    await clienteService.deletarPorId(id);
+    res.status(200).json({ mensagem: 'Cliente deletado com sucesso.' });
+  } catch (error: any) {
+    // Retorna 404 se o cliente não foi encontrado, 500 para outros erros
+    if (error.message.includes('não encontrado')) {
+      res.status(404).json({ mensagem: error.message });
+    } else {
+      res.status(500).json({ mensagem: 'Erro ao deletar cliente.', erro: error.message });
+    }
+  }
+};

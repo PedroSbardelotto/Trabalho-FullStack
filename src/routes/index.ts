@@ -1,7 +1,14 @@
 import 'dotenv/config';
 import { z } from 'zod';
 import { validate } from '../middleware/validateRequest';
-import { criarClienteUser, criarClienteAdmin, loginCliente } from '../controllers/ClienteController';
+import { 
+  criarClienteUser, 
+  criarClienteAdmin, 
+  loginCliente,
+  listarClientes,
+  deletarCliente
+} from '../controllers/ClienteController';
+
 import { Router } from 'express';
 import { criarEvento, listarEventosDisponiveis } from '../controllers/EventoController';
 import { criarPedido, relatorioPedidos } from '../controllers/PedidoController';
@@ -14,7 +21,8 @@ const router = Router();
 router.post('/clientes', criarClienteUser);
 router.post('/login', loginCliente);
 router.post('/admin/clientes', criarClienteAdmin);
-
+router.get('/clientes', listarClientes);
+router.delete('/clientes/:id', deletarCliente);
 router.post('/eventos', authMiddleware, criarEvento);
 router.get('/eventos', listarEventosDisponiveis); 
 router.post('/eventos', authMiddleware, upload.single('imagem'), criarEvento);
