@@ -23,15 +23,20 @@ router.post('/login', loginCliente);
 router.post('/admin/clientes', criarClienteAdmin);
 router.get('/clientes', listarClientes);
 router.delete('/clientes/:id', deletarCliente);
-router.post('/eventos', authMiddleware, criarEvento);
+
+
+
+
+
 router.get('/eventos', listarEventosDisponiveis); 
 router.post('/eventos', authMiddleware, upload.single('imagem'), criarEvento);
+
 
 router.post('/pedidos', authMiddleware, criarPedido);
 router.get('/relatorio', authMiddleware, relatorioPedidos);
 
 
-// Schema de validação para criação de cliente
+
 const createClienteSchema = z.object({
   body: z.object({
     nome: z.string().min(3, 'Nome precisa ter no mínimo 3 caracteres'),

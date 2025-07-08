@@ -142,3 +142,15 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
+
+#----------------------------------------------------------------#
+### Custom Ignores ###
+
+# VSCode editor settings
+.vscode/
+
+# HTTP request files for API testing
+*.http
+
+# SQLite database file
+database.sqlite

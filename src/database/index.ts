@@ -20,8 +20,7 @@ class Database {
   init(): void {
     models.forEach(model => model.initModel(this.connection));
     
-    // O 'as any' aqui ajuda a contornar a complexidade de tipagem
-    // dos modelos heterogêneos para o TypeScript
+   
     models.forEach(model => {
       if ((model as any).associate) {
         (model as any).associate(this.connection.models);

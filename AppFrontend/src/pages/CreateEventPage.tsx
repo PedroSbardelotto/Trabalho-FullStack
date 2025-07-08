@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react'; // Removido o import de useContext que não será mais usado aqui
 import { Form, Button, Card, Alert, Spinner, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthContext';
+// import { AuthContext } from '../contexts/AuthContext'; // Não é mais necessário aqui
 import { api } from '../services/api';
 
 function CreateEventPage() {
@@ -16,7 +16,7 @@ function CreateEventPage() {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {user} = useContext(AuthContext)
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,17 +31,17 @@ function CreateEventPage() {
     formData.append('horario', new Date(horario).toISOString());
     formData.append('valor', valor);
     formData.append('quantidadeDisponivel', quantidadeDisponivel);
-    formData.append('cpf', user?.cpf!)
+    
     if (imagem) {
       formData.append('imagem', imagem);
     }
 
     try {
-      await api.post('/eventos', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+     
+      await api.post('/eventos', formData);
+      
       setSuccess('Evento cadastrado com sucesso!');
-      setTimeout(() => navigate('/eventos'), 2000);
+      setTimeout(() => navigate('/admin/dashboard'), 2000); 
 
     } catch (err: any) {
       setError(err.response?.data?.message || 'Erro ao cadastrar evento.');

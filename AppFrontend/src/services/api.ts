@@ -12,6 +12,8 @@ api.interceptors.request.use(
     // 1. Pega o token do localStorage
     const token = localStorage.getItem('authToken');
 
+    console.log('%c[Interceptor] 2. TOKEN ENVIADO:', 'color: blue; font-weight: bold;', token);
+
     // 2. Se o token existir, adiciona o cabeçalho de autorização
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

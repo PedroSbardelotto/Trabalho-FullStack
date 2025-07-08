@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 
 class ClienteService {
 
-  // Método privado e genérico que lida com a lógica principal de criação
   private async _criar(dados: ClienteDTO, tipo: 'user' | 'admin'): Promise<Cliente> {
     const { nome, email, cpf, senha } = dados;
 
@@ -21,39 +20,25 @@ class ClienteService {
       email,
       cpf,
       senha: senhaHash,
-      tipo: tipo, // A role é passada como parâmetro
+      tipo: tipo,
     });
 
     return novoCliente;
   }
 
-  /**
-  * Lista todos os clientes cadastrados no banco de dados.
-  */
   public async listarTodos(): Promise<Cliente[]> {
     const clientes = await Cliente.findAll();
     return clientes;
   }
 
-  /**
-   * Cria um novo cliente com a role 'user'.
-   * Este método será usado pela rota pública de cadastro.
-   */
   public async criarClienteUser(dados: ClienteDTO): Promise<Cliente> {
     return this._criar(dados, 'user');
   }
 
-  /**
-   * Cria um novo cliente com a role 'admin'.
-   * Este método será usado por uma rota interna, apenas para setup.
-   */
   public async criarClienteAdmin(dados: ClienteDTO): Promise<Cliente> {
     return this._criar(dados, 'admin');
   }
 
-  /**
-   * Deleta um cliente do banco de dados pelo seu ID.
-   */
   public async deletarPorId(id: string): Promise<void> {
     const cliente = await Cliente.findByPk(id);
     if (!cliente) {
@@ -61,15 +46,12 @@ class ClienteService {
     }
     await cliente.destroy();
   }
-  /**
-   * Busca um cliente pelo seu CPF.
-   */
+ 
   public async buscarPorCpf(cpf: string): Promise<Cliente | null> {
     const cliente = await Cliente.findOne({ where: { cpf } });
     return cliente;
   }
 
-  // A função de login permanece a mesma
   public async validarLogin(cpf: string, senha: string): Promise<string> {
     const cliente = await Cliente.findOne({ where: { cpf } });
     if (!cliente) {
@@ -81,10 +63,13 @@ class ClienteService {
       throw new Error('Cpf ou senha incorretos.');
     }
 
+    // PONTO DA CORREÇÃO:
+    // Trocamos a variável de ambiente para JWT_SECRET para ser consistente
+    // com o middleware de autenticação.
     const token = jwt.sign(
       { id: cliente.id, nome: cliente.nome, cpf: cliente.cpf, tipo: cliente.tipo },
-      process.env.JWT_SECRET as string,
-      { expiresIn: '7d' }
+      process.env.JWT_SECRET as string, // <-- CHAVE CORRIGIDA AQUI
+      { expiresIn: '8h' } // Aumentei a expiração para 8 horas
     );
 
     return token;

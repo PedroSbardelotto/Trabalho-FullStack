@@ -37,6 +37,8 @@ export const loginCliente = async (req: Request, res: Response): Promise<void> =
   } catch (error: any) {
     res.status(401).json({ message: error.message });
   }
+
+  
 };
 
 export const listarClientes = async (req: Request, res: Response): Promise<void> => {

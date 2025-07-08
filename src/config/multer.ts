@@ -10,7 +10,7 @@ type FileNameCallback = (error: Error | null, filename: string) => void;
 // Define o local de armazenamento e o nome do arquivo
 const storage: StorageEngine = multer.diskStorage({
   destination: (req: Request, file: Express.Multer.File, cb: DestinationCallback): void => {
-    cb(null, path.resolve(__dirname, '..', '..', 'uploads'));
+    cb(null, path.resolve(__dirname, '..', 'uploads'));
   },
   filename: (req: Request, file: Express.Multer.File, cb: FileNameCallback): void => {
     const fileExt = path.extname(file.originalname);

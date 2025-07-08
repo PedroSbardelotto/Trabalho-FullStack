@@ -49,6 +49,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await api.post('/login', { cpf, senha });
       const { token: newToken } = response.data;
 
+      console.log('%c[AuthContext] 1. TOKEN SALVO:', 'color: green; font-weight: bold;', newToken);
+
+
       localStorage.setItem('authToken', newToken);
       // REMOVIDO: a linha 'api.defaults.headers.common...' foi retirada daqui
 

@@ -5,14 +5,15 @@
 // app.listen(PORT, () => {
 //   console.log(`Servidor rodando na porta ${PORT}`);
 // });
-
+import 'dotenv/config'
+console.log(process.env.JWT_SECRET)
 import app from './app';
 import database from './database';
 
 const PORT = process.env.PORT || 3000;
 
 // Sincroniza o banco de dados e então inicia o servidor
-database.connection.sync({ force: true }).then(() => { // use { force: true } para recriar o banco em dev
+database.connection.sync({ force: false }).then(() => { // use { force: true } para recriar o banco em dev
   console.log('Banco de dados conectado e sincronizado.');
   app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
